@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-// import App from './App';
-import { ResourceEditor } from "./components/UploadComponent/upload";
+import { ResourceEditor } from "./App";
 
 const element = document.getElementById("ResourceEditor");
 
