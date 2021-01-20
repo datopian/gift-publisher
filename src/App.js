@@ -328,7 +328,7 @@ export class ResourceEditor extends React.Component {
 
   handleUpload = async () => {
     axios({
-      method: 'post',
+      method: 'put',
       url: `/api/dataset/${this.state.datasetId}`,
       data: {
         metadata: this.state.resource,
