@@ -19,7 +19,7 @@ export class DatasetEditor extends React.Component {
     super(props);
     this.state = {
       dataset: this.props.config.dataset,
-      resource: this.props.config.dataset.resources[0] || {},
+      resource: typeof this.props.config.dataset.resources != "undefined"? this.props.config.dataset.resources[0] : {},
       datasetId: this.props.config.dataset.id,
       ui: {
         fileOrLink: "",
@@ -61,7 +61,7 @@ export class DatasetEditor extends React.Component {
   }
 
   mapResourceToDatapackageResource(fileResource) {
-    let datapackage = { ...this.state.dataset.metadata };
+    let datapackage = { ...this.state.dataset };
     let resource = {}
 
     resource["bytes"] = fileResource.size;
@@ -132,7 +132,7 @@ export class DatasetEditor extends React.Component {
   };
 
   downloadDatapackage = async () => {
-    let datapackage = { ...this.state.dataset.metadata };
+    let datapackage = { ...this.state.dataset };
     let resource = { ...datapackage.resources[0] };
     resource.schema.fields.forEach((f) => {
       f.type = f.columnType;
@@ -312,6 +312,24 @@ export class DatasetEditor extends React.Component {
           error => alert('Error on upload dataset'));
   };
 
+  setDatasetRes = (resource) => {
+    
+    let dataset = {...this.state.dataset};
+
+    if (typeof dataset.resources == "undefined") {
+      dataset["resources"] = []
+      dataset["resources"].push(resource)
+    }else {
+      dataset.resources.push(resource);
+    }
+    
+
+    this.setState({
+      dataset: dataset
+    });
+
+  }
+
   render() {
     const { success, loading } = this.state.ui;
     console.log(this.state.dataset.name)
@@ -346,6 +364,7 @@ export class DatasetEditor extends React.Component {
                 datasetId={this.state.datasetId}
                 handleUploadStatus={this.handleUploadStatus}
                 onChangeResourceId={this.onChangeResourceId}
+                setDataset={this.setDatasetRes}
                 organizationId={'gift-data'}
                 authToken={this.props.config.authToken}
                 lfsServerUrl={this.props.config.lfsServerUrl}
