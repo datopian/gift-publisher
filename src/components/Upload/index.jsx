@@ -131,6 +131,8 @@ class Upload extends React.Component {
       success: false,
     });
 
+    this.props.setDataset(resource.descriptor)
+
     client
       .upload(resource, organizationId, this.state.datasetId, this.onProgress)
       .then((response) => {
@@ -145,6 +147,8 @@ class Upload extends React.Component {
           loading: false,
           success: true,
         });
+
+        
       })
       .catch((error) => {
         console.error("Upload failed with error: " + error);
