@@ -47,7 +47,7 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
@@ -305,7 +305,7 @@ var Upload = /*#__PURE__*/function (_React$Component) {
     _defineProperty(_assertThisInitialized(_this), "validFileSelected", function (selectedFile, fileType) {
       return new Promise( /*#__PURE__*/function () {
         var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(resolve, reject) {
-          var fileExt, _fileExt, file;
+          var fileExt, _fileExt, ext, file;
 
           return regeneratorRuntime.wrap(function _callee4$(_context4) {
             while (1) {
@@ -376,14 +376,15 @@ var Upload = /*#__PURE__*/function (_React$Component) {
                       errorMsg: "An error occured when trying to download the file!\n               This can happen because CORS is disabled on the server or if the file does not exist."
                     });
                   });
-                  _context4.next = 26;
+                  _context4.next = 27;
                   break;
 
                 case 8:
                   _fileExt = selectedFile.type.split("/").pop();
+                  ext = ["text/csv", "application/vnd.ms-excel", "text/comma-separated-values", "text/x-comma-separated-values", "application/x-csv"];
 
-                  if (!(_fileExt != "csv")) {
-                    _context4.next = 12;
+                  if (ext.includes(selectedFile.type)) {
+                    _context4.next = 13;
                     break;
                   }
 
@@ -393,9 +394,9 @@ var Upload = /*#__PURE__*/function (_React$Component) {
                   });
                   return _context4.abrupt("return");
 
-                case 12:
+                case 13:
                   if (!(selectedFile.size == 0)) {
-                    _context4.next = 15;
+                    _context4.next = 16;
                     break;
                   }
 
@@ -405,36 +406,36 @@ var Upload = /*#__PURE__*/function (_React$Component) {
                   });
                   return _context4.abrupt("return");
 
-                case 15:
-                  _context4.prev = 15;
+                case 16:
+                  _context4.prev = 16;
                   file = data.open(selectedFile);
-                  _context4.next = 19;
+                  _context4.next = 20;
                   return file.addSchema();
 
-                case 19:
+                case 20:
                   resolve({
                     validFile: true,
                     errorMsg: '',
                     file: file
                   });
-                  _context4.next = 26;
+                  _context4.next = 27;
                   break;
 
-                case 22:
-                  _context4.prev = 22;
-                  _context4.t0 = _context4["catch"](15);
+                case 23:
+                  _context4.prev = 23;
+                  _context4.t0 = _context4["catch"](16);
                   console.log(_context4.t0);
                   reject({
                     validFile: false,
                     errorMsg: "An error occurred when trying to load the file!"
                   });
 
-                case 26:
+                case 27:
                 case "end":
                   return _context4.stop();
               }
             }
-          }, _callee4, null, [[15, 22]]);
+          }, _callee4, null, [[16, 23]]);
         }));
 
         return function (_x3, _x4) {

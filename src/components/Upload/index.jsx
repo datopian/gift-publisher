@@ -208,7 +208,8 @@ class Upload extends React.Component {
           });
       } else {
         const fileExt = selectedFile.type.split("/").pop();
-        if (fileExt != "csv") {
+        const ext = ["text/csv", "application/vnd.ms-excel", "text/comma-separated-values", "text/x-comma-separated-values", "application/x-csv" ]
+        if (!ext.includes(selectedFile.type)) {
           reject({
             validFile: false,
             errorMsg: "File Type not supported! Please upload a CSV file",
