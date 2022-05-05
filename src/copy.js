@@ -4,11 +4,15 @@ const execSync = require('child_process').execSync
 
 
 const fileToCopy = {
-  Metadata: 'import "./Metadata.css";',
+  Metadata: ['import "./Metadata.css"'],
   ProgressBar: 'import "./ProgressBar.css";',
   TablePreview:  undefined,
-  TableSchema: 'import "./TableSchema.css";',
-  Upload: undefined
+  TableSchema: "import './TableSchema.css';",
+  Upload: 'import "./Upload.css";',
+  Choose: 'import "./Choose.css";',
+  InputFile: ['import "./InputFile.css";', 'import upload from "../../assets/upload.png";'],
+  InputUrl: 'import "./InputUrl.css";',
+  ResourceList: undefined
 }
 
 
@@ -20,9 +24,19 @@ for(let keys in fileToCopy){
     .toString()
     .split('\n');
   if (fileToCopy[keys]) {
-    const index = fileContent.indexOf(fileToCopy[keys]);
+    if (Array.isArray(fileToCopy[keys])){
+      const value = fileToCopy[keys]
+      value.forEach((item)=>{
+        const index = fileContent.indexOf(item);
 
-    fileContent.splice(index, 1);
+        fileContent.splice(index, 1);
+      })
+    }else{
+      const index = fileContent.indexOf(fileToCopy[keys]);
+
+      fileContent.splice(index, 1);
+    }
+    
 
   }
   
@@ -41,13 +55,18 @@ const stringIndex = ['import Upload from "./components/Upload";',
                     'import Metadata from "./components/Metadata";',
                     'import "./App.css";',
                     'import ReactLogo from "./progressBar.svg";',
-                    '<img src={ReactLogo} width="50%" className="Img" />'];
+                    '<img src={ReactLogo} width="50%" className="Img" />',
+                  'import upload from "../../assets/upload.png";'];
 
 const appComponents = [
   'import Upload from "../Upload";',
   'import TablePreview from "../TablePreview";',
   'import TableSchema from "../TableSchema";',
-  'import Metadata from "../Metadata";'
+  'import ResourceList from "../ResourceList"',
+  'import Metadata from "../Metadata";',
+  'import InputFile from "../InputFile";',
+  'import InputUrl from "../InputUrl";',
+  'import Choose from "../Choose";'
 ];
 
 const startIndex = appContent.indexOf(stringIndex[0]);

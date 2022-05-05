@@ -11,6 +11,10 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
+var _InputFile = _interopRequireDefault(require("../InputFile"));
+
+var _InputUrl = _interopRequireDefault(require("../InputUrl"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
@@ -29,63 +33,39 @@ function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-var ProgressBar = function ProgressBar(props) {
-  var _useState = (0, _react.useState)(0),
+var Choose = function Choose(_ref) {
+  var onChangeUrl = _ref.onChangeUrl,
+      onChangeHandler = _ref.onChangeHandler;
+
+  var _useState = (0, _react.useState)(false),
       _useState2 = _slicedToArray(_useState, 2),
-      offset = _useState2[0],
-      setOffset = _useState2[1];
+      uploadOption = _useState2[0],
+      setUploadOption = _useState2[1];
 
-  var circleRef = (0, _react.useRef)(null);
-  var size = props.size,
-      progress = props.progress,
-      strokeWidth = props.strokeWidth,
-      circleOneStroke = props.circleOneStroke,
-      circleTwoStroke = props.circleTwoStroke,
-      timeRemaining = props.timeRemaining;
-  var center = size / 2;
-  var radius = size / 2 - strokeWidth / 2;
-  var circumference = 2 * Math.PI * radius;
-  (0, _react.useEffect)(function () {
-    var progressOffset = (100 - progress) / 100 * circumference;
-    setOffset(progressOffset);
-    circleRef.current.style = "transition: stroke-dashoffset 850ms ease-in-out";
-  }, [setOffset, progress, circumference, offset]);
-  return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("svg", {
-    className: "svg",
-    width: size,
-    height: size
-  }, /*#__PURE__*/_react.default.createElement("circle", {
-    className: "svg-circle-bg",
-    stroke: circleOneStroke,
-    cx: center,
-    cy: center,
-    r: radius,
-    strokeWidth: strokeWidth
-  }), /*#__PURE__*/_react.default.createElement("circle", {
-    className: "svg-circle",
-    ref: circleRef,
-    stroke: circleTwoStroke,
-    cx: center,
-    cy: center,
-    r: radius,
-    strokeWidth: strokeWidth,
-    strokeDasharray: circumference,
-    strokeDashoffset: offset
-  }), /*#__PURE__*/_react.default.createElement("text", {
-    x: "".concat(center),
-    y: "".concat(center + 2),
-    className: "svg-circle-text"
-  }, progress, "%")), timeRemaining > 0 && /*#__PURE__*/_react.default.createElement("span", {
-    className: "time-remaining"
-  }, timeRemaining > 60 ? "".concat(Math.floor(timeRemaining / 60), " minute").concat(Math.floor(timeRemaining / 60) > 1 ? 's' : '') : "".concat(Math.floor(timeRemaining), " second").concat(timeRemaining > 1 ? 's' : ''), " left"));
+  return /*#__PURE__*/_react.default.createElement("div", {
+    className: "upload-choose"
+  }, uploadOption ? /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, uploadOption === "file" && /*#__PURE__*/_react.default.createElement(_InputFile.default, {
+    onChangeHandler: onChangeHandler
+  }), uploadOption === "url" && /*#__PURE__*/_react.default.createElement(_InputUrl.default, {
+    onChangeUrl: onChangeUrl
+  })) : /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("button", {
+    className: "choose-btn",
+    onClick: function onClick() {
+      return setUploadOption("file");
+    }
+  }, "Choose a file to Upload "), /*#__PURE__*/_react.default.createElement("p", {
+    className: "choose-text"
+  }, "OR"), /*#__PURE__*/_react.default.createElement("button", {
+    className: "choose-btn",
+    onClick: function onClick() {
+      return setUploadOption("url");
+    }
+  }, "Link a file already online")));
 };
 
-ProgressBar.propTypes = {
-  size: _propTypes.default.number.isRequired,
-  progress: _propTypes.default.number.isRequired,
-  strokeWidth: _propTypes.default.number.isRequired,
-  circleOneStroke: _propTypes.default.string.isRequired,
-  circleTwoStroke: _propTypes.default.string.isRequired
+Choose.propTypes = {
+  onChangeUrl: _propTypes.default.func.isRequired,
+  onChangeHandler: _propTypes.default.func.isRequired
 };
-var _default = ProgressBar;
+var _default = Choose;
 exports.default = _default;

@@ -1,11 +1,12 @@
-import React, { useState, useEffect, useRef } from "react";
-import Select from "react-select";
-import PropTypes from "prop-types";
-import { useTable } from "react-table";
-import types from "../../db/types.json";
-import osTypes from "../../db/os-types.json";
-import osTypesDesc from "../../db/os-type-descriptions.json";
-import "./TableSchema.css";
+import React, { useState, useEffect, useRef } from 'react';
+import Select from 'react-select';
+import PropTypes from 'prop-types';
+import { useTable } from 'react-table';
+import types from '../../db/types.json';
+import osTypes from '../../db/os-types.json';
+import osTypesDesc from '../../db/os-type-descriptions.json';
+
+import './TableSchema.css';
 
 const osTypesPath =
   "https://raw.githubusercontent.com/gift-data/gift-os-types/main/os-types.json";
@@ -99,6 +100,13 @@ const TableSchema = (props) => {
           props.handleRichType(unfilledRichTypes + 1);
           setRichIndex(index)
         }
+
+        if (unfilledRichTypes < totalSchemaLength && index == richTypePrevIndex) {
+          setUnfilledRichTypes(unfilledRichTypes + 1);
+          props.handleRichType(unfilledRichTypes + 1);
+          setRichIndex(index)
+        }
+        
         alert(`Invalid richtype for type ${type}`)
       }
 
@@ -251,8 +259,8 @@ const TableSchema = (props) => {
         return existingRichTypes.map((item, index) => (
           <td key={`schema-type-field-${key}-${index}`}>
             <input
-              className="table-tbody-input"
-              type="text"
+              className='table-tbody-input'
+              type='text'
               value={item}
               disabled
             />
@@ -282,8 +290,8 @@ const TableSchema = (props) => {
     return schema.fields.map((item, index) => (
       <td key={`schema-field-${key}-${index}`}>
         <input
-          className="table-tbody-input"
-          type="text"
+          className='table-tbody-input'
+          type='text'
           value={item[key]}
           onChange={(event) => handleChange(event, key, index)}
         />
@@ -292,30 +300,8 @@ const TableSchema = (props) => {
   };
 
   return (
-    <>
+    <div>
       <div className="table-container">
-        <table className="table-schema-help">
-          <tbody>
-            <tr className="table-tbody-help-tr">
-              <td className="table-tbody-help-td-empty"></td>
-            </tr>
-            <tr className="table-tbody-help-tr">
-              <td className="table-tbody-help-td">Title</td>
-            </tr>
-            <tr className="table-tbody-help-tr">
-              <td className="table-tbody-help-td">Description</td>
-            </tr>
-            <tr className="table-tbody-help-tr">
-              <td className="table-tbody-help-td">Type</td>
-            </tr>
-            <tr className="table-tbody-help-tr">
-              <td className="table-tbody-help-td">Format</td>
-            </tr>
-            <tr className="table-tbody-help-tr">
-              <td className="table-tbody-help-td">Rich Type</td>
-            </tr>
-          </tbody>
-        </table>
         <div className="table-schema-info_container">
           <table className="table-schema-info_table" {...getTableProps()}>
             <thead>
@@ -324,6 +310,7 @@ const TableSchema = (props) => {
                   className="table-thead-tr"
                   {...headerGroup.getHeaderGroupProps()}
                 >
+                  <th className="table-thead-th mr-4"></th>
                   {headerGroup.headers.map((column) => (
                     <th className="table-thead-th" {...column.getHeaderProps()}>
                       {column.render("Header")}
@@ -333,20 +320,20 @@ const TableSchema = (props) => {
               ))}
             </thead>
             <tbody {...getTableBodyProps()}>
-              <tr className="table-tbody-tr-help">
-                {renderEditSchemaField("title")}
+              <tr>
+                <td className="table-tbody-help-td">Type</td>
+                {renderEditSchemaField("type")}
               </tr>
-              <tr className="table-tbody-tr-help">
-                {renderEditSchemaField("description")}
+              <tr>
+                <td className="table-tbody-help-td">Rich Type</td>
+                {renderEditSchemaField("columnType")}
               </tr>
-              <tr>{renderEditSchemaField("type")}</tr>
-              <tr>{renderEditSchemaField("format")}</tr>
-              <tr>{renderEditSchemaField("columnType")}</tr>
               <br />
               {rows.map((row) => {
                 prepareRow(row);
                 return (
                   <tr {...row.getRowProps()}>
+                    <td></td>
                     {row.cells.map((cell) => {
                       return (
                         <td {...cell.getCellProps()} className="table-tbody-td">
@@ -361,7 +348,7 @@ const TableSchema = (props) => {
           </table>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

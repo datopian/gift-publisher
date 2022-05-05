@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import InputFile from "../InputFile";
 import InputUrl from "../InputUrl";
-import "./Choose.css";
 
 const Choose = ({ onChangeUrl, onChangeHandler }) => {
   const [uploadOption, setUploadOption] = useState(false);

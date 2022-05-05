@@ -15,8 +15,8 @@ class Upload extends React.Component {
       dataset: props.dataset,
       selectedFile: null,
       fileSize: 0,
-      formattedSize: "0 KB",
-      start: "",
+      formattedSize: '0 KB',
+      start: '',
       loaded: 0,
       success: false,
       error: false,
@@ -43,10 +43,10 @@ class Upload extends React.Component {
     } else {
       selectedFile = event.target.value;
       if (!isValidURL(selectedFile)) {
-        this.setErrorState("Invalid URL! Please ensure entered URL is correct");
+        this.setErrorState('Invalid URL! Please ensure entered URL is correct');
         return;
       }
-      this.setState({ uploadedFileType: "url" });
+      this.setState({ uploadedFileType: 'url' });
       path = selectedFile;
     }
 
@@ -61,7 +61,7 @@ class Upload extends React.Component {
       formattedSize = onFormatBytes(file.size || 0);
 
       let self = this;
-      const hash = await file.hash("sha256", (progress) => {
+      const hash = await file.hash('sha256', (progress) => {
         self.onHashProgress(progress);
       });
 
@@ -70,14 +70,14 @@ class Upload extends React.Component {
       //check if file has the same schema
       if (!this.hasSameSchema(file._descriptor)) {
         this.setErrorState(
-          "Schema of uploaded resource does not match existing one!"
+          'Schema of uploaded resource does not match existing one!'
         );
         return;
       }
 
       //check if file already exists in resource
       if (this.hasSameHash(file._descriptor)) {
-        this.setErrorState("Possible duplicate, the resource already exists!");
+        this.setErrorState('Possible duplicate, the resource already exists!');
         return;
       }
 
@@ -189,7 +189,7 @@ class Upload extends React.Component {
               await file.addSchema();
               resolve({
                 validFile: true,
-                errorMsg: "",
+                errorMsg: '',
                 file,
               });
             } catch (error) {
@@ -208,7 +208,8 @@ class Upload extends React.Component {
           });
       } else {
         const fileExt = selectedFile.type.split("/").pop();
-        if (fileExt != "csv") {
+        const ext = ["text/csv", "application/vnd.ms-excel", "text/comma-separated-values", "text/x-comma-separated-values", "application/x-csv" ]
+        if (!ext.includes(selectedFile.type)) {
           reject({
             validFile: false,
             errorMsg: "File Type not supported! Please upload a CSV file",
@@ -227,7 +228,7 @@ class Upload extends React.Component {
         try {
           const file = data.open(selectedFile);
           await file.addSchema();
-          resolve({ validFile: true, errorMsg: "", file });
+          resolve({ validFile: true, errorMsg: '', file });
         } catch (error) {
           console.log(error);
           reject({
@@ -281,7 +282,7 @@ class Upload extends React.Component {
 
   hasSameSchema = (resource) => {
     if (
-      Object.keys(this.state.dataset).includes("resources") &&
+      Object.keys(this.state.dataset).includes('resources') &&
       this.state.dataset.resources.length > 0
     ) {
       const newFields = resource.schema.fields.map((field) => {
@@ -300,7 +301,7 @@ class Upload extends React.Component {
 
   hasSameHash(newResource) {
     if (
-      Object.keys(this.state.dataset).includes("resources") &&
+      Object.keys(this.state.dataset).includes('resources') &&
       this.state.dataset.resources.length > 0
     ) {
       const { resources } = this.state.dataset;
@@ -315,7 +316,7 @@ class Upload extends React.Component {
 
   uploadToFileStorageHandler = async () => {
     const { selectedFile, uploadedFileType } = this.state;
-    if (uploadedFileType == "url") {
+    if (uploadedFileType == 'url') {
       this.setState({
         success: true,
         loading: false,
@@ -460,10 +461,10 @@ class Upload extends React.Component {
           <div>
             <>
               <div>
-                <p className="upload-file-name">
+                <p className='upload-file-name'>
                   Uploading {selectedFile.name}...
                 </p>
-                <p className="upload-file-name">Size: {formattedSize}</p>
+                <p className='upload-file-name'>Size: {formattedSize}</p>
               </div>
               <ProgressBar
                 progress={this.state.loaded}
@@ -477,8 +478,9 @@ class Upload extends React.Component {
                 {success &&
                   !fileExists &&
                   !error &&
-                  "File uploaded successfully"}
-                {error && "Upload failed"}
+                  'File uploaded successfully'}
+                {/* {fileExists && 'File uploaded successfully'} */}
+                {error && 'Upload failed'}
               </h2>
             </>
           </div>
