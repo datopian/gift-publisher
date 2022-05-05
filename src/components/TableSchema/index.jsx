@@ -100,6 +100,13 @@ const TableSchema = (props) => {
           props.handleRichType(unfilledRichTypes + 1);
           setRichIndex(index)
         }
+
+        if (unfilledRichTypes < totalSchemaLength && index == richTypePrevIndex) {
+          setUnfilledRichTypes(unfilledRichTypes + 1);
+          props.handleRichType(unfilledRichTypes + 1);
+          setRichIndex(index)
+        }
+        
         alert(`Invalid richtype for type ${type}`)
       }
 
@@ -294,64 +301,43 @@ const TableSchema = (props) => {
 
   return (
     <div>
-      <div className='table-container'>
-        <table className='table-schema-help'>
-          <tbody>
-            <tr className='table-tbody-help-tr'>
-              <td className='table-tbody-help-td-empty'></td>
-            </tr>
-            <tr className='table-tbody-help-tr'>
-              <td className='table-tbody-help-td'>Title</td>
-            </tr>
-            <tr className='table-tbody-help-tr'>
-              <td className='table-tbody-help-td'>Description</td>
-            </tr>
-            <tr className='table-tbody-help-tr'>
-              <td className='table-tbody-help-td'>Type</td>
-            </tr>
-            <tr className='table-tbody-help-tr'>
-              <td className='table-tbody-help-td'>Format</td>
-            </tr>
-            <tr className='table-tbody-help-tr'>
-              <td className='table-tbody-help-td'>Rich Type</td>
-            </tr>
-          </tbody>
-        </table>
-        <div className='table-schema-info_container'>
-          <table className='table-schema-info_table' {...getTableProps()}>
+      <div className="table-container">
+        <div className="table-schema-info_container">
+          <table className="table-schema-info_table" {...getTableProps()}>
             <thead>
               {headerGroups.map((headerGroup) => (
                 <tr
-                  className='table-thead-tr'
+                  className="table-thead-tr"
                   {...headerGroup.getHeaderGroupProps()}
                 >
+                  <th className="table-thead-th mr-4"></th>
                   {headerGroup.headers.map((column) => (
-                    <th className='table-thead-th' {...column.getHeaderProps()}>
-                      {column.render('Header')}
+                    <th className="table-thead-th" {...column.getHeaderProps()}>
+                      {column.render("Header")}
                     </th>
                   ))}
                 </tr>
               ))}
             </thead>
             <tbody {...getTableBodyProps()}>
-              <tr className='table-tbody-tr-help'>
-                {renderEditSchemaField('title')}
+              <tr>
+                <td className="table-tbody-help-td">Type</td>
+                {renderEditSchemaField("type")}
               </tr>
-              <tr className='table-tbody-tr-help'>
-                {renderEditSchemaField('description')}
+              <tr>
+                <td className="table-tbody-help-td">Rich Type</td>
+                {renderEditSchemaField("columnType")}
               </tr>
-              <tr>{renderEditSchemaField('type')}</tr>
-              <tr>{renderEditSchemaField('format')}</tr>
-              <tr>{renderEditSchemaField('columnType')}</tr>
               <br />
               {rows.map((row) => {
                 prepareRow(row);
                 return (
                   <tr {...row.getRowProps()}>
+                    <td></td>
                     {row.cells.map((cell) => {
                       return (
-                        <td {...cell.getCellProps()} className='table-tbody-td'>
-                          {cell.render('Cell')}
+                        <td {...cell.getCellProps()} className="table-tbody-td">
+                          {cell.render("Cell")}
                         </td>
                       );
                     })}

@@ -223,6 +223,12 @@ var TableSchema = function TableSchema(props) {
           setRichIndex(index);
         }
 
+        if (unfilledRichTypes < totalSchemaLength && index == richTypePrevIndex) {
+          setUnfilledRichTypes(unfilledRichTypes + 1);
+          props.handleRichType(unfilledRichTypes + 1);
+          setRichIndex(index);
+        }
+
         alert("Invalid richtype for type ".concat(type));
       }
     } else {
@@ -406,54 +412,30 @@ var TableSchema = function TableSchema(props) {
 
   return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", {
     className: "table-container"
-  }, /*#__PURE__*/_react.default.createElement("table", {
-    className: "table-schema-help"
-  }, /*#__PURE__*/_react.default.createElement("tbody", null, /*#__PURE__*/_react.default.createElement("tr", {
-    className: "table-tbody-help-tr"
-  }, /*#__PURE__*/_react.default.createElement("td", {
-    className: "table-tbody-help-td-empty"
-  })), /*#__PURE__*/_react.default.createElement("tr", {
-    className: "table-tbody-help-tr"
-  }, /*#__PURE__*/_react.default.createElement("td", {
-    className: "table-tbody-help-td"
-  }, "Title")), /*#__PURE__*/_react.default.createElement("tr", {
-    className: "table-tbody-help-tr"
-  }, /*#__PURE__*/_react.default.createElement("td", {
-    className: "table-tbody-help-td"
-  }, "Description")), /*#__PURE__*/_react.default.createElement("tr", {
-    className: "table-tbody-help-tr"
-  }, /*#__PURE__*/_react.default.createElement("td", {
-    className: "table-tbody-help-td"
-  }, "Type")), /*#__PURE__*/_react.default.createElement("tr", {
-    className: "table-tbody-help-tr"
-  }, /*#__PURE__*/_react.default.createElement("td", {
-    className: "table-tbody-help-td"
-  }, "Format")), /*#__PURE__*/_react.default.createElement("tr", {
-    className: "table-tbody-help-tr"
-  }, /*#__PURE__*/_react.default.createElement("td", {
-    className: "table-tbody-help-td"
-  }, "Rich Type")))), /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement("div", {
     className: "table-schema-info_container"
   }, /*#__PURE__*/_react.default.createElement("table", _extends({
     className: "table-schema-info_table"
   }, getTableProps()), /*#__PURE__*/_react.default.createElement("thead", null, headerGroups.map(function (headerGroup) {
     return /*#__PURE__*/_react.default.createElement("tr", _extends({
       className: "table-thead-tr"
-    }, headerGroup.getHeaderGroupProps()), headerGroup.headers.map(function (column) {
+    }, headerGroup.getHeaderGroupProps()), /*#__PURE__*/_react.default.createElement("th", {
+      className: "table-thead-th mr-4"
+    }), headerGroup.headers.map(function (column) {
       return /*#__PURE__*/_react.default.createElement("th", _extends({
         className: "table-thead-th"
-      }, column.getHeaderProps()), column.render('Header'));
+      }, column.getHeaderProps()), column.render("Header"));
     }));
-  })), /*#__PURE__*/_react.default.createElement("tbody", getTableBodyProps(), /*#__PURE__*/_react.default.createElement("tr", {
-    className: "table-tbody-tr-help"
-  }, renderEditSchemaField('title')), /*#__PURE__*/_react.default.createElement("tr", {
-    className: "table-tbody-tr-help"
-  }, renderEditSchemaField('description')), /*#__PURE__*/_react.default.createElement("tr", null, renderEditSchemaField('type')), /*#__PURE__*/_react.default.createElement("tr", null, renderEditSchemaField('format')), /*#__PURE__*/_react.default.createElement("tr", null, renderEditSchemaField('columnType')), /*#__PURE__*/_react.default.createElement("br", null), rows.map(function (row) {
+  })), /*#__PURE__*/_react.default.createElement("tbody", getTableBodyProps(), /*#__PURE__*/_react.default.createElement("tr", null, /*#__PURE__*/_react.default.createElement("td", {
+    className: "table-tbody-help-td"
+  }, "Type"), renderEditSchemaField("type")), /*#__PURE__*/_react.default.createElement("tr", null, /*#__PURE__*/_react.default.createElement("td", {
+    className: "table-tbody-help-td"
+  }, "Rich Type"), renderEditSchemaField("columnType")), /*#__PURE__*/_react.default.createElement("br", null), rows.map(function (row) {
     prepareRow(row);
-    return /*#__PURE__*/_react.default.createElement("tr", row.getRowProps(), row.cells.map(function (cell) {
+    return /*#__PURE__*/_react.default.createElement("tr", row.getRowProps(), /*#__PURE__*/_react.default.createElement("td", null), row.cells.map(function (cell) {
       return /*#__PURE__*/_react.default.createElement("td", _extends({}, cell.getCellProps(), {
         className: "table-tbody-td"
-      }), cell.render('Cell'));
+      }), cell.render("Cell"));
     }));
   }))))));
 };
